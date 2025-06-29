@@ -3,7 +3,6 @@ header('Content-Type: application/json');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Dados da base
 $host = 'dpg-d1g7e4qli9vc73abi8p0-a.frankfurt-postgres.render.com';
 $port = '5432';
 $dbname = 'lockbit';
