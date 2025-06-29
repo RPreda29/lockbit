@@ -26,7 +26,7 @@ $dados = [];
 if ($result) {
     while ($row = pg_fetch_assoc($result)) {
         $dados[] = [
-            "id_evento" => (int)$row["id_entrada"],
+            "id_evento" => (int)$row["id_evento"],
             "data_evento" => $row["data_evento"],
             "tipo_evento" => $row["tipo_evento"]
         ];
