@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -13,17 +14,17 @@ $connStr = "host=$host port=$port dbname=$dbname user=$user password=$password";
 $conn = pg_connect($connStr);
 
 if (!$conn) {
-    die("❌ Erro na conexão com a base de dados.");
+    echo json_encode(["erro" => "Erro na conexão com a base de dados."]);
+    exit;
 }
 
-// Só buscar a última password (mais recente)
 $query = "SELECT password FROM cofre ORDER BY id_cofre DESC LIMIT 1";
 $result = pg_query($conn, $query);
 
 if ($row = pg_fetch_assoc($result)) {
-    echo $row['password'];
+    echo json_encode(["valor" => $row['password']]);
 } else {
-    echo "⚠️ Nenhuma senha encontrada.";
+    echo json_encode(["erro" => "Nenhuma senha encontrada."]);
 }
 
 pg_close($conn);
