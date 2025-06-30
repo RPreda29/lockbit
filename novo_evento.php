@@ -10,11 +10,12 @@ $dbname = "lockbit";
 $user = "lockbit_user";
 $password = "0sxXxNGk7THkeqH0INX10FGi8xY4eMdv";
 
-// Lê o tipo de evento por POST (ex: "alteracao_senha")
+// Lê os dados do POST
 $tipo = $_POST['tipo'] ?? '';
+$data_evento = $_POST['data_evento'] ?? '';
 
-if (empty($tipo)) {
-    echo json_encode(["erro" => "Tipo de evento não especificado"]);
+if (empty($tipo) || empty($data_evento)) {
+    echo json_encode(["erro" => "Campos obrigatórios ausentes"]);
     exit;
 }
 
@@ -22,8 +23,8 @@ try {
     $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $pdo->prepare("INSERT INTO evento (tipo_evento, data_evento, id_cofre) VALUES (?, NOW(), 1)");
-    $stmt->execute([$tipo]);
+    $stmt = $pdo->prepare("INSERT INTO evento (tipo_evento, data_evento, id_cofre) VALUES (?, ?, 1)");
+    $stmt->execute([$tipo, $data_evento]);
 
     echo json_encode(["sucesso" => true]);
 } catch (PDOException $e) {
